@@ -1,4 +1,0 @@
-add_subdirectory(rpc)
-# add_subdirectory(net)
-# add_subdirectory(mysql)
-# add_subdirectory(http)
