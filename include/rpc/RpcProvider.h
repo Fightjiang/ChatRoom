@@ -19,7 +19,7 @@ public:
     void NotifyService(google::protobuf::Service *service);
 
     // 启动 rpc 服务节点，开始提供 rpc 远程网络调用服务 , 进程进入阻塞状态，等待远程的 rpc 调用请求
-    void Run();
+    void Run(const char* , const uint16_t);
 
 private: 
 

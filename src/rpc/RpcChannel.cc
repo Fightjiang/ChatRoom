@@ -11,7 +11,7 @@
 #include "./base/ZookeeperUtil.h"
 
 // header_size + service_name method_name args_size + args 
-void MprpcChannel::CallMethod(const google::protobuf::MethodDescriptor* method,
+void RpcChannel::CallMethod(const google::protobuf::MethodDescriptor* method,
                             google::protobuf::RpcController* controller, 
                             const google::protobuf::Message* request,
                             google::protobuf::Message* response, 
@@ -62,6 +62,7 @@ void MprpcChannel::CallMethod(const google::protobuf::MethodDescriptor* method,
     // 打印调试信息
     std::cout << "=================================" << std::endl ; 
     std::cout << "header_size: "    << header_size << std::endl ; 
+    // 打印的时候，为什么会突兀的换行呢？因为 rpc_header_str 是调用 protobuf 提供的 SerializeToString 其中还包括 args_size 等信息,不一定完全
     std::cout << "rpc_header_str: " << rpc_header_str << std::endl ; 
 
     std::cout << "service_name: "   << service_name << std::endl ; 

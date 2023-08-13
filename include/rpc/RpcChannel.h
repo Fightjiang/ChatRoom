@@ -6,7 +6,7 @@
 #include <google/protobuf/message.h>
 #include "../rpc/RpcController.h"
 
-class MprpcChannel : public google::protobuf::RpcChannel
+class RpcChannel : public google::protobuf::RpcChannel
 {
 public : 
 

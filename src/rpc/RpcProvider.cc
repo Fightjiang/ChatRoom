@@ -37,12 +37,15 @@ void RpcProvider::NotifyService(google::protobuf::Service *service)
     m_serviceMap.insert({service_name , service_info}) ; 
 }
 
-void RpcProvider::Run()
+void RpcProvider::Run(const char *Ip , const uint16_t Port)
 {
+ 
+    // ConfigInfo configinfo_ ;   
+    // std::string rpc_ip = configinfo_.rpc_server_ip  ; 
+    // uint16_t rpc_port  = configinfo_.rpc_server_port ;
 
-    ConfigInfo configinfo_ ;   
-    std::string rpc_ip = configinfo_.rpc_server_ip  ; 
-    uint16_t rpc_port  = configinfo_.rpc_server_port ;
+    std::string rpc_ip = Ip ; 
+    uint16_t rpc_port  = Port;
     muduo::net::InetAddress address(rpc_ip , rpc_port) ; 
 
     // 创建 TcpServer 对象
