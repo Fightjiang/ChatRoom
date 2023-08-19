@@ -6,8 +6,7 @@
 #include <error.h>
 
 #include "./rpc/rpcheader.pb.h"
-#include "./rpc/RpcChannel.h"
-#include "./base/CommonConfig.h"
+#include "./rpc/RpcChannel.h" 
 #include "./base/ZookeeperUtil.h"
 
 // header_size + service_name method_name args_size + args 

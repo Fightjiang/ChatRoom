@@ -100,7 +100,7 @@ ProxyService::MsgHandler ProxyService::get_handler(std::string msg_type)
 //处理客户端异常退出
 void ProxyService::client_close_exception(const muduo::net::TcpConnectionPtr &conn)
 {
-    //1.删除user_map    2.用户改为offline   3.线程安全 4.删除redis上的信息
+    //1. 线程安全 2. 删除user_map 3.用户改为offline 
     int userId = -1 ; 
     {
         std::lock_guard<std::mutex> lock(mutex_);

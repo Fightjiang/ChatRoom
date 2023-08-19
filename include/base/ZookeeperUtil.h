@@ -9,7 +9,7 @@
 class ZkClient
 {
 public:
-    ZkClient()   ;
+    ZkClient(std::string path = "")   ;
     ~ZkClient()  ;
     // zkClient 启动连接 zkserver
     void Start() ;
@@ -21,6 +21,8 @@ public:
 private : 
     // zk 的客户端句柄
     zhandle_t *m_zhandle ; 
+    std::string path_ ; // 当前服务下的路径
+    
 } ; 
 
 #endif

@@ -16,7 +16,7 @@ void global_watcher(zhandle_t *zh , int type ,
     }
 }
 
-ZkClient::ZkClient() : m_zhandle(nullptr) 
+ZkClient::ZkClient(std::string path) : m_zhandle(nullptr) , path_(path)
 {
 }
 
@@ -31,10 +31,8 @@ ZkClient::~ZkClient()
 // 启动
 void ZkClient::Start() 
 {
-    ConfigInfo configinfo_ ;    
-
-    std::string host = configinfo_.zookeeper_ip ; 
-    std::string port = std::to_string(configinfo_.zookeeper_port) ; 
+    std::string host = ConfigInfo::zookeeper_ip ; 
+    std::string port = std::to_string(ConfigInfo::zookeeper_port) ; 
     std::string IPportStr = host + ":" + port ; 
 
     /*

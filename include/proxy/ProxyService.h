@@ -38,7 +38,7 @@ public :
 
     // 服务器异常，清理客户端资源
     void reset() ; 
-    
+
     using MsgHandler = std::function<void(const muduo::net::TcpConnectionPtr &conn, std::string &recv_str, muduo::Timestamp time)>;
 
     //获得消息对应的处理器
@@ -46,7 +46,6 @@ public :
 
 private:
 
-    RedisCli redis_client_; //连接redis服务器
     ZkClient master_;       //连接zookeeper服务器
 
     std::unordered_map<std::string, MsgHandler> msg_handler_map_;              //存储事件及事件对应的回调函数

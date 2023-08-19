@@ -1,13 +1,17 @@
 #ifndef COMMON_CONFIG_H
 #define COMMON_CONFIG_H
 
-struct ConfigInfo{
+namespace ConfigInfo
+{
     const char* rpc_server_ip = "127.0.0.1";
     const int rpc_server_port = 8080 ; 
     
     const char* zookeeper_ip = "127.0.0.1" ; 
     const int zookeeper_port=2181 ; 
-
+    
+    const char* redis_ip = "127.0.0.1" ; 
+    const int redis_port=6379 ; 
+    
     const char * mysql_host = "localhost" ;                          // 数据库 IP 
     const int mysql_port = 3306 ;                                          // 数据库端口
     const char * mysql_user = "root" ;                               // 数据库账号
