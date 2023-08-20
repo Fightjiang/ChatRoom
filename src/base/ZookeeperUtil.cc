@@ -57,6 +57,10 @@ void ZkClient::Start()
 
     sem_wait(&sem) ; // 阻塞，等待唤醒
     std::cout << "zookeeper_init_success" << std::endl ; 
+    if(!this->IsNodeExist(path_.data()))
+    {
+        this->CreateNode(path_.data() , nullptr , 0 , 0) ; 
+    }
 }
 
 bool ZkClient::IsNodeExist(const char *path)

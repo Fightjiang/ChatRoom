@@ -11,6 +11,7 @@ ProxyService::ProxyService(const char* ip , const uint16_t port) :
     msg_handler_map_.insert({"Login", std::bind(&ProxyService::login, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
     msg_handler_map_.insert({"Regist", std::bind(&ProxyService::regist, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
     msg_handler_map_.insert({"Logout", std::bind(&ProxyService::login, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
+    
 }
 
 // ProxyService 中的所有方法都是只充当一个转发的作用
@@ -19,12 +20,14 @@ ProxyService::ProxyService(const char* ip , const uint16_t port) :
 void ProxyService::login(const muduo::net::TcpConnectionPtr &conn, std::string &recv_buf, muduo::Timestamp time)
 {
     //反序列化
-    ik_UserService::LoginRequest login_request;
+    User::LoginRequest login_request;
     login_request.ParseFromString(recv_buf);
     login_request.set_ip_port(std::string(ip_) + ":" + std::to_string(port_)) ;
 
+    // std::cout << " id = " << login_request.id() << " password = " << login_request.password() 
+    //           << " ip_port " << login_request.ip_port() << std::endl ;
     //执行
-    ik_UserService::LoginReponse response;
+    User::LoginReponse response;
     user_stub_.Login(nullptr, &login_request, &response, nullptr);
  
     if(response.is_success())
@@ -44,11 +47,11 @@ void ProxyService::login(const muduo::net::TcpConnectionPtr &conn, std::string &
 void ProxyService::regist(const muduo::net::TcpConnectionPtr &conn, std::string &recv_buf, muduo::Timestamp time)
 {
     //反序列化
-    ik_UserService::RegisterRequest regist_request;
+    User::RegisterRequest regist_request;
     regist_request.ParseFromString(recv_buf);
 
     //执行
-    ik_UserService::RegisterResponse response;
+    User::RegisterResponse response;
     user_stub_.Registe(nullptr, &regist_request, &response, nullptr);
 
     //序列化并发送
@@ -60,11 +63,11 @@ void ProxyService::regist(const muduo::net::TcpConnectionPtr &conn, std::string 
 void ProxyService::logout(const muduo::net::TcpConnectionPtr &conn, std::string &recv_buf, muduo::Timestamp time)
 {
     //反序列化
-    ik_UserService::LogOutRequest request;
+    User::LogOutRequest request;
     request.ParseFromString(recv_buf);
 
     //执行
-    ik_UserService::LogOutResponse response;
+    User::LogOutResponse response;
     user_stub_.LoginOut(nullptr, &request, &response, nullptr);
 
     if(response.is_success())
@@ -117,9 +120,9 @@ void ProxyService::client_close_exception(const muduo::net::TcpConnectionPtr &co
     }
 
     if(userId != -1) {
-        ik_UserService::LogOutRequest request;
+        User::LogOutRequest request;
         request.set_id(userId) ;
-        ik_UserService::LogOutResponse response;
+        User::LogOutResponse response;
         user_stub_.LoginOut(nullptr, &request, &response, nullptr);
     }
 }
@@ -147,11 +150,11 @@ void ProxyService::reset()
     }
     
     // 远程 RPC 调用，可能会更加费时间
-    ik_UserService::LogOutRequest request;
+    User::LogOutRequest request;
     for(int id : userIds) 
     {
         request.set_id(id) ;
-        ik_UserService::LogOutResponse response;
+        User::LogOutResponse response;
         user_stub_.LoginOut(nullptr, &request, &response, nullptr);
     }
 }

@@ -16,12 +16,14 @@
 
 class ProxyServer
 {
-private :
-    // 初始化服务器信息
-    ProxyServer(const char* , const uint16_t) ; 
-
+public :
+    static ProxyServer &getInstance() {
+        static ProxyServer instance ; 
+        return instance ;
+    }
+    
     // 代理服务器开始工作
-    void start() ; 
+    void start(const char* ip, const uint16_t port) ; 
 
      //连接事件的回调函数
     void on_connetion(const muduo::net::TcpConnectionPtr &conn);
@@ -31,10 +33,16 @@ private :
 
     // 清理服务器资源
     void on_clear() ; 
+
+private :
+    // 初始化服务器信息
+    ProxyServer() ; 
+    ~ProxyServer() { this->on_clear() ; }
+
 private :
     muduo::net::EventLoop mainLoop_;
-    const char* ip_ ; 
-    const uint16_t port_ ;  
+    std::string ip_ ; 
+    uint16_t port_ ;  
     std::shared_ptr<ProxyService> proxyService_ ; 
 } ; 
 

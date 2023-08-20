@@ -1,15 +1,11 @@
 #include "./proxy/ProxyServer.h"
 
 //初始化服务器信息
-ProxyServer::ProxyServer(const char* ip, const uint16_t port)
-    : ip_(ip),
-      port_(port_),
-      proxyService_(new ProxyService(ip , port)) 
-{
-}
+ProxyServer::ProxyServer() {}
 
-void ProxyServer::start() 
+void ProxyServer::start(const char* ip, const uint16_t port) 
 {
+    ip_ = ip ; port_ = port ;
     muduo::net::InetAddress address(ip_ , port_) ; 
     // 创建 TcpServer 对象
     muduo::net::TcpServer server(&mainLoop_ , address , "ProxyServer") ; 
@@ -26,6 +22,12 @@ void ProxyServer::start()
     //设置工作线程数量
     //最佳线程数目 = （线程等待时间与线程CPU时间之比 + 1）* CPU数目 ==>高网络I/O设计
     server.setThreadNum(4);
+
+    // 启动网络服务
+    std::cout << "ProxyServer start IP : " << ip_ <<" Port = " << port_ << std::endl ;
+    proxyService_ = std::make_shared<ProxyService>(ip_.data() , port_) ;
+    server.start() ; 
+    mainLoop_.loop() ;  
 }
 
 //读写事件回调函数

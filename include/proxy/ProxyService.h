@@ -53,7 +53,7 @@ private:
     std::mutex mutex_;    
 
 private:
-    ik_UserService::UserServiceRpc_Stub user_stub_ ;
+    User::UserServiceRpc_Stub user_stub_ ;
     const char* ip_ ; 
     const uint16_t port_ ;  
 };
