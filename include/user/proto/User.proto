@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package User; 
+
+option cc_generic_services = true;
+
+// 有关登录的消息
+message LoginRequest
+{
+    int32 id = 1;
+    string password = 2;
+    string ip_port = 3;
+}
+
+message LoginReponse
+{
+    bool is_success = 1;
+    string message = 2;
+}
+
+// 有关注册
+message RegisterRequest
+{
+    string name = 1;
+    string password = 2;
+}
+
+message RegisterResponse
+{
+    bool is_success = 1;
+    string message = 2;
+}
+
+//有关下线消息
+message LogOutRequest
+{
+    int32 id = 1;
+}
+
+message LogOutResponse
+{
+    bool is_success = 1;
+    string message = 2;
+}
+
+//服务接口
+service UserServiceRpc
+{
+    rpc Login(LoginRequest) returns(LoginReponse);
+    rpc Registe(RegisterRequest) returns(RegisterResponse);
+    rpc LoginOut (LogOutRequest)returns (LogOutResponse);
+}

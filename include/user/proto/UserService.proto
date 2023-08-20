@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package UserService;
+
+// 有关登录的消息
+message LoginRequest
+{
+    int32 id = 1;
+    string password = 2;
+    string ip_port = 3;
+}
+
+message LoginReponse
+{
+    bool is_success = 1;
+    string message = 2;
+}
+
+// 有关注册
+message RegisterRequest
+{
+    string name = 1;
+    string password = 2;
+}
+
+message RegisterResponse
+{
+    bool is_success = 1;
+    string message = 2;
+}
+
+//有关下线消息
+message LogOutRequest
+{
+    int32 id = 1;
+}
+
+message LogOutResponse
+{
+    bool is_success = 1;
+    string message = 2;
+}
+
+message UserRequest
+{
+    string type = 1;
+    string message = 2;
+}
+
+message UserResponse
+{
+    string type = 1;
+    string message = 2;
+}
