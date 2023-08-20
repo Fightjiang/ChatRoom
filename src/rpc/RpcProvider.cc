@@ -70,7 +70,7 @@ void RpcProvider::Run(const char *Ip , const uint16_t Port)
     {
         // "/service_name" 
         std::string service_path = "/" + sp.first ;
-        zkCli.Create(service_path.data() , nullptr , 0) ; 
+        zkCli.CreateNode(service_path.data() , nullptr , 0 , 0) ; // 0 -> 永久
 
         for (auto &mp : sp.second.m_methodMap) 
         {
@@ -78,7 +78,7 @@ void RpcProvider::Run(const char *Ip , const uint16_t Port)
             std::string method_path = service_path + "/" + mp.first ; 
             std::string method_path_data = rpc_ip + ":" + std::to_string(rpc_port) ; 
             // 临时性节点，连接断开则删除节点
-            zkCli.Create(method_path.data() , method_path_data.data() , method_path_data.size() , ZOO_EPHEMERAL) ; 
+            zkCli.CreateNode(method_path.data() , method_path_data.data() , method_path_data.size() , ZOO_EPHEMERAL) ; 
         }
     }
 

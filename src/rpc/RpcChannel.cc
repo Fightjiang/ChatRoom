@@ -86,7 +86,7 @@ void RpcChannel::CallMethod(const google::protobuf::MethodDescriptor* method,
     ZkClient zkCli ; 
     zkCli.Start() ; 
     std::string method_path = "/" + service_name + "/" + method_name ; 
-    std::string host_data = zkCli.GetData(method_path.data()) ; 
+    std::string host_data = zkCli.GetNodeData(method_path.data()) ; 
     if(host_data == "")
     {
         controller->SetFailed(method_path + " is not exist !!" ) ; 
