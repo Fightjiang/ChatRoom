@@ -1,29 +1,29 @@
 #ifndef USER_MASTER_H
 #define USER_MASTER_H
 
-#include "../user/UserService.pb.h"
+#include "../user/User.pb.h"
 #include "../base/ZookeeperUtil.h" 
 #include "../rpc/RpcProvider.h"
 #include <mysql/mysql.h>
 
-class UserMaster  
+class UserMaster : public User::UserServiceRpc
 {
 public:
     UserMaster();
     
     void Login(::google::protobuf::RpcController *controller,
-               const ::UserService::LoginRequest *request,
-               ::UserService::LoginReponse *response,
+               const ::User::LoginRequest *request,
+               ::User::LoginReponse *response,
                ::google::protobuf::Closure *done);
 
-    void Registe(::google::protobuf::RpcController *controller,
-                 const ::UserService::RegisterRequest *request,
-                 ::UserService::RegisterResponse *response,
+    void Register(::google::protobuf::RpcController *controller,
+                 const ::User::RegisterRequest *request,
+                 ::User::RegisterResponse *response,
                  ::google::protobuf::Closure *done);
 
     void LogOut(::google::protobuf::RpcController *controller,
-                  const ::UserService::LogOutRequest *request,
-                  ::UserService::LogOutResponse *response,
+                  const ::User::LogOutRequest *request,
+                  ::User::LogOutResponse *response,
                   ::google::protobuf::Closure *done);
 
 private:

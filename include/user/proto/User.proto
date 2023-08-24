@@ -7,7 +7,7 @@ option cc_generic_services = true;
 // 有关登录的消息
 message LoginRequest
 {
-    int32 id = 1;
+    string name = 1;
     string password = 2;
     string ip_port = 3;
 }
@@ -34,7 +34,8 @@ message RegisterResponse
 //有关下线消息
 message LogOutRequest
 {
-    int32 id = 1;
+    string name = 1;
+    string ip_port = 2;
 }
 
 message LogOutResponse
@@ -43,10 +44,22 @@ message LogOutResponse
     string message = 2;
 }
 
+message UserRequest
+{
+    string type = 1;
+    string message = 2;
+}
+
+message UserResponse
+{
+    string type = 1;
+    string message = 2;
+}
+
 //服务接口
 service UserServiceRpc
 {
     rpc Login(LoginRequest) returns(LoginReponse);
-    rpc Registe(RegisterRequest) returns(RegisterResponse);
+    rpc Register(RegisterRequest) returns(RegisterResponse);
     rpc LoginOut (LogOutRequest)returns (LogOutResponse);
 }
