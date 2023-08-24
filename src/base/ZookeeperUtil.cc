@@ -18,7 +18,7 @@ void global_watcher(zhandle_t *zh , int type ,
 
 ZkClient::ZkClient(const std::string &path) : m_zhandle(nullptr) , path_(path)
 {
-    this->Start() ;
+    this->Start() ; 
 }
 
 ZkClient::~ZkClient()
@@ -54,10 +54,10 @@ void ZkClient::Start()
     sem_t sem ; 
     sem_init(&sem , 0 , 0) ; 
     zoo_set_context(m_zhandle , &sem) ; // 向 m_zhangle 添加信息
-
     sem_wait(&sem) ; // 阻塞，等待唤醒
-    std::cout << "zookeeper_init_success" << std::endl ; 
-    if(!this->IsNodeExist(path_.data()))
+    
+    // std::cout << "zookeeper_init_success" << std::endl ; 
+    if(path_.size() > 0 && !this->IsNodeExist(path_.data()))
     {
         this->CreateNode(path_.data() , nullptr , 0 , 0) ; 
     }

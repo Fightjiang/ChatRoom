@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     proxyRequest.set_type("Login") ; 
 
     User::LoginRequest loginRequest ;
-    loginRequest.set_id(1) ;
+    loginRequest.set_name("zhang san") ;
     loginRequest.set_password("123456") ; 
     std::string msg = loginRequest.SerializeAsString() ; 
     proxyRequest.set_request_msg(msg);

@@ -22,6 +22,10 @@ int main(int argc, char **argv)
     const char *ip = argv[1] ;
     const uint16_t port = atoi(argv[2]) ;
     
+    // 设置日志级别
+    muduo::Logger::setLogLevel(muduo::Logger::ERROR);
+    zoo_set_debug_level(ZOO_LOG_LEVEL_ERROR);  
+
     ProxyServer &proxyServer = ProxyServer::getInstance() ;
     proxyServer.start(ip , port) ;
 

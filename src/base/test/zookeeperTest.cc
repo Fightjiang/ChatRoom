@@ -31,11 +31,15 @@ void testZookeeperCmd()
     value = zkClient_.GetNodeData("/test/Login") ;
     std::cout << "/test/Login = " << value << std::endl ;
     assert(value == "127.0.0.1:8003");
-    
+
+    // 测试创建临时顺序节点  
+    result = zkClient_.CreateNode("/test/SequeLogin" , tmpNodeValue.data() , tmpNodeValue.size() , ZOO_EPHEMERAL | ZOO_SEQUENCE ) ; 
+    assert(result == true) ; 
+    sleep(20) ; 
 }
 int main() 
 {
     testZookeeperCmd() ;
-    sleep(10) ; 
+    
     return 0 ; 
 }

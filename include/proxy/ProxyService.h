@@ -10,6 +10,7 @@
 #include <muduo/net/EventLoop.h>
 #include <muduo/net/InetAddress.h>
 #include <muduo/net/TcpConnection.h> 
+#include <muduo/base/Logging.h>
 #include <mutex>
 #include <unordered_map>
 #include <functional>
@@ -49,7 +50,7 @@ private:
     ZkClient master_;       //连接zookeeper服务器
 
     std::unordered_map<std::string, MsgHandler> msg_handler_map_;              //存储事件及事件对应的回调函数
-    std::unordered_map<int, muduo::net::TcpConnectionPtr> use_connection_map_; //存储登录用户及对应 文件描述符信息 便于发送消息给客户端
+    std::unordered_map<std::string, muduo::net::TcpConnectionPtr> use_connection_map_; //存储登录用户及对应 文件描述符信息 便于发送消息给客户端
     std::mutex mutex_;    
 
 private:
