@@ -59,16 +59,16 @@ void RpcChannel::CallMethod(const google::protobuf::MethodDescriptor* method,
     send_rpc_str += args_str       ; // args 
 
     // 打印调试信息
-    std::cout << "=================================" << std::endl ; 
-    std::cout << "header_size: "    << header_size << std::endl ; 
-    // 打印的时候，为什么会突兀的换行呢？因为 rpc_header_str 是调用 protobuf 提供的 SerializeToString 其中还包括 args_size 等信息,不一定完全
-    std::cout << "rpc_header_str: " << rpc_header_str << std::endl ; 
+    // std::cout << "=================================" << std::endl ; 
+    // std::cout << "header_size: "    << header_size << std::endl ; 
+    // // 打印的时候，为什么会突兀的换行呢？因为 rpc_header_str 是调用 protobuf 提供的 SerializeToString 其中还包括 args_size 等信息,不一定完全
+    // std::cout << "rpc_header_str: " << rpc_header_str << std::endl ; 
 
-    std::cout << "service_name: "   << service_name << std::endl ; 
-    std::cout << "method_name: "    << method_name << std::endl ; 
-    std::cout << "args_size: "      << args_size << std::endl ; 
-    std::cout << "args_str: "      << args_str << std::endl ; 
-    std::cout << "=================================" << std::endl ; 
+    // std::cout << "service_name: "   << service_name << std::endl ; 
+    // std::cout << "method_name: "    << method_name << std::endl ; 
+    // std::cout << "args_size: "      << args_size << std::endl ; 
+    // std::cout << "args_str: "      << args_str << std::endl ; 
+    // std::cout << "=================================" << std::endl ; 
 
     // 使用 Tcp 编程，完成 rpc 方法的远程调用发送
     int clientfd = socket(AF_INET , SOCK_STREAM , 0) ; 

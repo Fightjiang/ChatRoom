@@ -19,7 +19,7 @@ void RpcProvider::NotifyService(google::protobuf::Service *service)
     // 获取服务对象 service 的方法的数量
     int methodCnt = pserviceDesc->method_count() ;
 
-    std::cout << "service name : " << service_name << std::endl ;
+    // std::cout << "service name : " << service_name << std::endl ;
 
     ServiceInfo service_info ; 
     for (int i = 0 ; i < methodCnt ; ++i)
@@ -29,7 +29,7 @@ void RpcProvider::NotifyService(google::protobuf::Service *service)
         const std::string &method_name = pmethodDesc->name() ; 
         service_info.m_methodMap.insert({method_name , pmethodDesc}) ;
 
-        std::cout << "method name : " << method_name << std::endl ;
+        // std::cout << "method name : " << method_name << std::endl ;
     }
 
     service_info.m_service = service ; 
@@ -70,7 +70,10 @@ void RpcProvider::Run(const char *Ip , const uint16_t Port)
     {
         // "/service_name" 
         std::string service_path = "/" + sp.first ;
-        zkCli.CreateNode(service_path.data() , nullptr , 0 , 0) ; // 0 -> 永久
+
+        if(!zkCli.IsNodeExist(service_path.data())) {
+            zkCli.CreateNode(service_path.data() , nullptr , 0 , 0) ; // 0 -> 永久
+        }
 
         for (auto &mp : sp.second.m_methodMap) 
         {
@@ -147,15 +150,15 @@ void RpcProvider::OnMessage(const muduo::net::TcpConnectionPtr &conn, muduo::net
     std::string args_str = recv_buf.substr(4 + header_size , args_size) ; 
     
     // 打印调试信息
-    std::cout << "=================================" << std::endl ; 
-    std::cout << "header_size: "    << header_size << std::endl ; 
-    std::cout << "rpc_header_str: " << rpc_header_str << std::endl ; 
+    // std::cout << "=================================" << std::endl ; 
+    // std::cout << "header_size: "    << header_size << std::endl ; 
+    // std::cout << "rpc_header_str: " << rpc_header_str << std::endl ; 
 
-    std::cout << "service_name: "   << service_name << std::endl ; 
-    std::cout << "method_name: "    << method_name << std::endl ; 
-    std::cout << "args_size: "      << args_size << std::endl ; 
-    std::cout << "args_str: "      << args_str << std::endl ; 
-    std::cout << "=================================" << std::endl ; 
+    // std::cout << "service_name: "   << service_name << std::endl ; 
+    // std::cout << "method_name: "    << method_name << std::endl ; 
+    // std::cout << "args_size: "      << args_size << std::endl ; 
+    // std::cout << "args_str: "      << args_str << std::endl ; 
+    // std::cout << "=================================" << std::endl ; 
 
     // 获取 service 对象 和 method 对象
     auto serviceIt = m_serviceMap.find(service_name) ; 
