@@ -82,7 +82,7 @@ void UserFollower::on_message(const muduo::net::TcpConnectionPtr &conn, muduo::n
         }
         responseMessage = register_response.SerializeAsString(); 
     }
-    else if (request.type() == "LoginOut")  //注销业务
+    else if (request.type() == "LogOut")  //注销业务
     {
         User::LogOutRequest logout_request;
         logout_request.ParseFromString(request.message());
@@ -102,10 +102,8 @@ void UserFollower::on_message(const muduo::net::TcpConnectionPtr &conn, muduo::n
         responseMessage = logout_response.SerializeAsString(); 
     } 
 
-    if(responseMessage.size() > 0){
-        // 这里其实还需要判断发送是否成功等
-        conn->send(responseMessage.data(), responseMessage.size());
-    }
+   // 这里其实还需要判断发送是否成功等
+    conn->send(responseMessage.data(), responseMessage.size()) ; 
 }
 
 //连接事件回调函数

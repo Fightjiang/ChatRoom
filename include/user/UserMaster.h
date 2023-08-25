@@ -9,7 +9,7 @@
 class UserMaster : public User::UserServiceRpc
 {
 public:
-    UserMaster();
+    UserMaster(): zkClient_("/UserMaster") {}
     
     void Login(::google::protobuf::RpcController *controller,
                const ::User::LoginRequest *request,

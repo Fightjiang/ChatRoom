@@ -63,7 +63,7 @@ void ProxyService::logout(const muduo::net::TcpConnectionPtr &conn, std::string 
     //反序列化
     User::LogOutRequest request;
     request.ParseFromString(recv_buf);
-
+    request.set_ip_port(std::string(ip_) + ":" + std::to_string(port_)) ;
     //执行
     User::LogOutResponse response;
     user_stub_.LogOut(nullptr, &request, &response, nullptr);
@@ -120,6 +120,7 @@ void ProxyService::client_close_exception(const muduo::net::TcpConnectionPtr &co
     if(userName.size() > 0 ) {
         User::LogOutRequest request;
         request.set_name(userName) ;
+        request.set_ip_port(std::string(ip_) + ":" + std::to_string(port_)) ;
         User::LogOutResponse response;
         user_stub_.LogOut(nullptr, &request, &response, nullptr);
     }
