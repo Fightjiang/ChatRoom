@@ -16,9 +16,11 @@
 #include "./proxy/Proxy.pb.h"
 using namespace std;
 
-const Proxy::ProxyResponse CallMethod(const int clientfd , const Proxy::ProxyRequest &proxyRequest) 
+bool CallMethod(const int clientfd , 
+                google::protobuf::Message *proxyRequest ,
+                google::protobuf::Message *proxyResponse) 
 {
-    std::string request = proxyRequest.SerializeAsString();
+    std::string request = proxyRequest->SerializeAsString();
     int len = send(clientfd, request.c_str(), strlen(request.c_str()) + 1, 0) ; 
     if (len == -1)
     {
@@ -28,14 +30,13 @@ const Proxy::ProxyResponse CallMethod(const int clientfd , const Proxy::ProxyReq
     char buffer[1024] = {0} ;
     len = recv(clientfd, buffer, 1024, 0);  // 阻塞了
 
-    Proxy::ProxyResponse response ;
-    if(!response.ParseFromString(buffer))
+    if(!proxyResponse->ParseFromString(buffer))
     {
         std::cout << "serialize fail" << std::endl ;
-        return response;
+        return false;
     }
     
-    return response ;
+    return true ;
 }
 
 // 聊天客户端程序实现，main线程用作发送线程，子线程用作接收线程
@@ -78,18 +79,16 @@ int main(int argc, char **argv)
     proxyRequest.set_type("Login") ; 
 
     User::LoginRequest loginRequest ;
-    loginRequest.set_name("zhang san") ;
+    loginRequest.set_name("zhangsan") ;
     loginRequest.set_password("123456") ; 
     std::string msg = loginRequest.SerializeAsString() ; 
     proxyRequest.set_request_msg(msg);
 
-    const Proxy::ProxyResponse& response = CallMethod(clientfd , proxyRequest) ;  
     User::LoginReponse loginResponse ; 
-    loginResponse.ParseFromString(response.response_msg());
-
-    cout << response.type() << " " << loginResponse.is_success() << " " << loginResponse.message() << std::endl ;
-
+    if(CallMethod(clientfd , &proxyRequest , &loginResponse)) 
+    {
+        cout << proxyRequest.type() << " " << loginResponse.is_success() << " " << loginResponse.message() << std::endl ;
+    }  
     ::close(clientfd);
-
     return 0 ;
 }

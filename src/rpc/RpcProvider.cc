@@ -190,6 +190,11 @@ void RpcProvider::OnMessage(const muduo::net::TcpConnectionPtr &conn, muduo::net
     google::protobuf::Message* response = service->GetResponsePrototype(method).New() ; 
 
     // 给下面的 method 方法的调用，绑定一个 Closure 的回调函数 , bind 等方法也是可以的
+    // <> NeCallback 中的尖括号是给模板执行参数类型， () 是 NewCallbakc 需要的参数传递
+    // 而 <> 尖括号就是所需传递参数的类型 
+    // template <typename Class, typename Arg1, typename Arg2>
+    // inline Closure* NewCallback(Class* object, void (Class::*method)(Arg1, Arg2),
+    //                             Arg1 arg1, Arg2 arg2) 
     google::protobuf::Closure* done = google::protobuf::NewCallback<RpcProvider , 
                                                                     const muduo::net::TcpConnectionPtr& , 
                                                                     google::protobuf::Message*>

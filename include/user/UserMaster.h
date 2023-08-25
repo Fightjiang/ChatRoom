@@ -14,17 +14,17 @@ public:
     void Login(::google::protobuf::RpcController *controller,
                const ::User::LoginRequest *request,
                ::User::LoginReponse *response,
-               ::google::protobuf::Closure *done);
+               ::google::protobuf::Closure *done) override ;
 
     void Register(::google::protobuf::RpcController *controller,
                  const ::User::RegisterRequest *request,
                  ::User::RegisterResponse *response,
-                 ::google::protobuf::Closure *done);
+                 ::google::protobuf::Closure *done) override;
 
     void LogOut(::google::protobuf::RpcController *controller,
                   const ::User::LogOutRequest *request,
                   ::User::LogOutResponse *response,
-                  ::google::protobuf::Closure *done);
+                  ::google::protobuf::Closure *done) override;
 
 private:
     ZkClient zkClient_ ;  

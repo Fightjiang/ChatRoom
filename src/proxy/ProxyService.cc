@@ -27,7 +27,7 @@ void ProxyService::login(const muduo::net::TcpConnectionPtr &conn, std::string &
     //执行
     User::LoginReponse response;
     user_stub_.Login(nullptr, &login_request, &response, nullptr);
- 
+    std::cout << "result = " << response.is_success() << " msg = " << response.message() << std::endl ;
     if(response.is_success())
     { 
         //添加此用户到user map表中
@@ -66,7 +66,7 @@ void ProxyService::logout(const muduo::net::TcpConnectionPtr &conn, std::string 
 
     //执行
     User::LogOutResponse response;
-    user_stub_.LoginOut(nullptr, &request, &response, nullptr);
+    user_stub_.LogOut(nullptr, &request, &response, nullptr);
 
     if(response.is_success())
     { 
@@ -121,7 +121,7 @@ void ProxyService::client_close_exception(const muduo::net::TcpConnectionPtr &co
         User::LogOutRequest request;
         request.set_name(userName) ;
         User::LogOutResponse response;
-        user_stub_.LoginOut(nullptr, &request, &response, nullptr);
+        user_stub_.LogOut(nullptr, &request, &response, nullptr);
     }
 }
 
@@ -130,7 +130,7 @@ void ProxyService::reset()
 {
     //序列化客户端收到的语句
     Proxy::ProxyResponse response;
-    response.set_type("LoginOut");
+    response.set_type("LogOut");
     response.set_response_msg("server crash");
     std::string send_str = response.SerializeAsString();
     std::vector<std::string> userNames ; 
@@ -155,6 +155,6 @@ void ProxyService::reset()
         request.set_name(name) ;
         request.set_name(ipPort) ;
         User::LogOutResponse response;
-        user_stub_.LoginOut(nullptr, &request, &response, nullptr);
+        user_stub_.LogOut(nullptr, &request, &response, nullptr);
     }
 }

@@ -61,5 +61,5 @@ service UserServiceRpc
 {
     rpc Login(LoginRequest) returns(LoginReponse);
     rpc Register(RegisterRequest) returns(RegisterResponse);
-    rpc LoginOut (LogOutRequest)returns (LogOutResponse);
+    rpc LogOut (LogOutRequest)returns (LogOutResponse);
 }

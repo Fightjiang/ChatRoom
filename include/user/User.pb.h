@@ -1452,7 +1452,7 @@ class UserServiceRpc : public ::PROTOBUF_NAMESPACE_ID::Service {
                        const ::User::RegisterRequest* request,
                        ::User::RegisterResponse* response,
                        ::google::protobuf::Closure* done);
-  virtual void LoginOut(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+  virtual void LogOut(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::User::LogOutRequest* request,
                        ::User::LogOutResponse* response,
                        ::google::protobuf::Closure* done);
@@ -1493,7 +1493,7 @@ class UserServiceRpc_Stub : public UserServiceRpc {
                        const ::User::RegisterRequest* request,
                        ::User::RegisterResponse* response,
                        ::google::protobuf::Closure* done);
-  void LoginOut(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+  void LogOut(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::User::LogOutRequest* request,
                        ::User::LogOutResponse* response,
                        ::google::protobuf::Closure* done);

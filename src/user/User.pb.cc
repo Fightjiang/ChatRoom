@@ -228,15 +228,15 @@ const char descriptor_table_protodef_User_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "cess\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\",\n\013UserReque"
   "st\022\014\n\004type\030\001 \001(\t\022\017\n\007message\030\002 \001(\t\"-\n\014Use"
   "rResponse\022\014\n\004type\030\001 \001(\t\022\017\n\007message\030\002 \001(\t"
-  "2\263\001\n\016UserServiceRpc\022/\n\005Login\022\022.User.Logi"
+  "2\261\001\n\016UserServiceRpc\022/\n\005Login\022\022.User.Logi"
   "nRequest\032\022.User.LoginReponse\0229\n\010Register"
   "\022\025.User.RegisterRequest\032\026.User.RegisterR"
-  "esponse\0225\n\010LoginOut\022\023.User.LogOutRequest"
-  "\032\024.User.LogOutResponseB\003\200\001\001b\006proto3"
+  "esponse\0223\n\006LogOut\022\023.User.LogOutRequest\032\024"
+  ".User.LogOutResponseB\003\200\001\001b\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_User_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_User_2eproto = {
-  false, false, 635, descriptor_table_protodef_User_2eproto, "User.proto", 
+  false, false, 633, descriptor_table_protodef_User_2eproto, "User.proto", 
   &descriptor_table_User_2eproto_once, nullptr, 0, 8,
   schemas, file_default_instances, TableStruct_User_2eproto::offsets,
   file_level_metadata_User_2eproto, file_level_enum_descriptors_User_2eproto, file_level_service_descriptors_User_2eproto,
@@ -2274,11 +2274,11 @@ void UserServiceRpc::Register(::PROTOBUF_NAMESPACE_ID::RpcController* controller
   done->Run();
 }
 
-void UserServiceRpc::LoginOut(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+void UserServiceRpc::LogOut(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                          const ::User::LogOutRequest*,
                          ::User::LogOutResponse*,
                          ::google::protobuf::Closure* done) {
-  controller->SetFailed("Method LoginOut() not implemented.");
+  controller->SetFailed("Method LogOut() not implemented.");
   done->Run();
 }
 
@@ -2306,7 +2306,7 @@ void UserServiceRpc::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor*
              done);
       break;
     case 2:
-      LoginOut(controller,
+      LogOut(controller,
              ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::User::LogOutRequest*>(
                  request),
              ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::User::LogOutResponse*>(
@@ -2378,7 +2378,7 @@ void UserServiceRpc_Stub::Register(::PROTOBUF_NAMESPACE_ID::RpcController* contr
   channel_->CallMethod(descriptor()->method(1),
                        controller, request, response, done);
 }
-void UserServiceRpc_Stub::LoginOut(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+void UserServiceRpc_Stub::LogOut(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                               const ::User::LogOutRequest* request,
                               ::User::LogOutResponse* response,
                               ::google::protobuf::Closure* done) {

@@ -28,8 +28,11 @@ void UserMaster::Login(::google::protobuf::RpcController *controller,
     //获取信息
     char recv_buf[256] = {0};
     recv(client_fd, recv_buf, 256, 0);
- 
-    response->ParseFromString(recv_buf) ; 
+    if (response->ParseFromString(recv_buf) == false)
+    {
+        std::cout << "userMaster Parse userFollower response Fail" << std::endl ;
+    } 
+    std::cout << "result = " << response->is_success() << " msg = " << response->message() << std::endl ;
     close(client_fd);
     done->Run();
 }
@@ -47,5 +50,6 @@ void UserMaster::LogOut(::google::protobuf::RpcController *controller,
                 ::User::LogOutResponse *response,
                 ::google::protobuf::Closure *done)
 {
-    
+    std::cout << "LOGOUT" << std::endl ;
+    done->Run();
 }
