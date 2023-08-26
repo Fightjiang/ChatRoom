@@ -52,3 +52,9 @@ stream {
 1. 能把 Client 的请求按照负载均衡算法分发到具体的 ProxyServer 服务器上
 2. 能够与 ProxyServer 保持心跳连接机制，检查 ProxyServer 故障
 3. 能够发现新添加的 ProxyServer 机器，方便扩展服务器的数量
+
+  
+参考文献：
+1. [Nginx stream 配置代理（Nginx TCP/UDP 负载均衡）](https://blog.51cto.com/u_1472521/4965232)
+2. [如何在 Ubuntu 20.04 上安装 Nginx](https://zhuanlan.zhihu.com/p/138007915)
+3. [Ubuntu 安装Nginx及简单配置](https://blog.csdn.net/shenmingxueIT/article/details/113186948)
