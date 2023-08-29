@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package ChatMessage;
+
+option cc_generic_services = true;
+
+// 用户消息体
+message Message
+{
+    string sendName = 1;
+    string recvName = 2;
+    string msg = 3;
+    string time = 4;
+}
+
+// 写入离线消息的响应体
+message WriteOfflineReponse
+{
+    bool is_success = 1;
+    string message = 2;
+}
+
+// 读取离线消息的请求
+message ReadOfflineRequest
+{
+    string name = 1;
+}
+
+// 返回该用户所有的离线消息
+message ReadOfflineResponse
+{
+    bool is_success = 1;
+    repeated Message Messages = 2;
+}
+
+message ChatRequest
+{
+    string type = 1;
+    string message = 2;
+}
+
+message ChatResponse
+{
+    bool is_success = 1;
+    string message = 2;
+}
+
+// service ChatServiceRpc
+// {
+//     // rpc ChatMessage(Message) 
+//     rpc WriteOffline(Message) returns(WriteOfflineReponse);
+//     rpc ReadOffline(ReadOfflineRequest) returns(ReadOfflineResponse);
+// }

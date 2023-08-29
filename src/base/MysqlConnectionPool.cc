@@ -103,7 +103,10 @@ void ConnectionPool::recycleConnection()
 void ConnectionPool::addConnection()
 {
     MysqlConn* conn = new MysqlConn;
-    conn->connect(user_, passwd_, dbName_, ip_, port_);
+    if(!conn->connect(user_, passwd_, dbName_, ip_, port_)) {
+        std::cout << "add connection fail" << std::endl ;
+        return ; 
+    } 
     conn->refreshAliveTime();    // 刷新起始的空闲时间点
     connectionQueue_.push(conn); // 记录新连接
     currentConnCount_++;

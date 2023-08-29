@@ -44,6 +44,12 @@ message LogOutResponse
     string message = 2;
 }
 
+message GetUserInfoResponse
+{
+    bool is_success = 1;
+    repeated string userNames = 2; 
+}
+
 message UserRequest
 {
     string type = 1;
@@ -62,4 +68,5 @@ service UserServiceRpc
     rpc Login(LoginRequest) returns(LoginReponse);
     rpc Register(RegisterRequest) returns(RegisterResponse);
     rpc LogOut (LogOutRequest)returns (LogOutResponse);
+    rpc GetUserInfo (UserRequest)returns (GetUserInfoResponse);
 }

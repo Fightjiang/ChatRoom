@@ -26,6 +26,11 @@ public:
                   ::User::LogOutResponse *response,
                   ::google::protobuf::Closure *done) override;
 
+    void GetUserInfo(::google::protobuf::RpcController *controller,
+                  const ::User::UserRequest *request,
+                  ::User::GetUserInfoResponse *response,
+                  ::google::protobuf::Closure *done) override;
+                  
 private:
     ZkClient zkClient_ ;  
 } ; 

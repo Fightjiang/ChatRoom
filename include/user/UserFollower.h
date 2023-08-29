@@ -5,7 +5,7 @@
 #include "../base/MysqlConnectionPool.h"
 #include "../base/ZookeeperUtil.h"
 #include "../base/Redis.h"
-
+#include "../base/Socket.h"
 #include <muduo/net/TcpConnection.h>
 #include <muduo/net/TcpServer.h>
 #include <muduo/net/Buffer.h>
@@ -14,6 +14,7 @@
 #include <muduo/base/Logging.h>
 #include <functional>
 #include <string>
+#include <vector>
 
 class UserFollower
 {
@@ -29,7 +30,7 @@ public:
     //连接事件回调函数
     void on_connetion(const muduo::net::TcpConnectionPtr& conn);
 
-public:
+private:
     //登录
     int Login(const std::string& name, const std::string &password , const std::string &proxyIP);
 
@@ -39,7 +40,9 @@ public:
     //注册 成功返回注册的账户，失败返回-1
     bool Register(const std::string& name, const std::string& password);
 
-public: 
+    std::vector<std::string> GetUserInfo() ;
+
+private: 
 
     ConnectionPool* MysqlPool_;  //数据库连接池
     muduo::net::EventLoop loop_;

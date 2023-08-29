@@ -22,12 +22,14 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/src/base SRC_BASE)
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/rpc SRC_RPC) 
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/proxy SRC_PROXY) 
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/user SRC_USER) 
+aux_source_directory(${PROJECT_SOURCE_DIR}/src/chat SRC_CHAT) 
 
 add_library(Tiny_ChatRoom  
             ${SRC_BASE}   
             ${SRC_RPC}
             ${SRC_PROXY}
             ${SRC_USER}
+            ${SRC_CHAT}
            )
 
 # 目标动态库所需连接的库（这里需要连接libpthread.so）

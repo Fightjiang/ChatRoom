@@ -12,12 +12,3 @@ Zookeeper 主要具有的功能有：1. 数据发布/订阅; 2. 集群管理(选
 主服务器 Master 负责从 Zookeeper 对应的路径下查找到从节点 Follower 的 IP:Port 然后进行数据转发。从服务器一旦启动就会往 Zookeeper 中的对应路径下写入自己的 IP:Port 注册临时节点，这样一旦服务器断开连接，临时节点上的数据就会被删除。
 
 Zookeeper 在这里其实主要就是起到一个配置中心的目的，Zookeeper 上面我们标识了每个类的方法所对应的分布式节点地址，当我们其他服务器想要发起 RPC 调用的时候，就先去 Zookeeper 上查询对应要调用的服务在那个节点上。
-
-
-
-## Nginx
-选择 Nginx 作为集群的负载均衡模块的原因有：
-1. 能把 Client 的请求按照负载均衡算法分发到具体的 ProxyServer 服务器上
-2. 能够与 ProxyServer 保持心跳连接机制，检查 ProxyServer 故障
-3. 能够发现新添加的 ProxyServer 机器，方便扩展服务器的数量
-

@@ -140,9 +140,8 @@ bool ZkClient::SetNodeData(const char *path , const char *value)
 
 
 // 等到一个可用的从服务器节点，并建立连接，返回文件描述符
-int ZkClient::GetFollowerFd()
+std::shared_ptr<Socket> ZkClient::GetFollowerFd()
 {
-    if (total_services_ == 0)  return -1;
     
     // 轮询的方式分配，因为可能存在其他节点下线的情况，所以每次都是重新 Flush 下子节点服务列表
     String_vector followers;
@@ -158,7 +157,7 @@ int ZkClient::GetFollowerFd()
     current_service_ = (current_service_ + 1) % (total_services_ + 1);
 
     int host_index = host_data.find(":");
-    if (host_index == -1)  return -1; 
+    if (host_index == -1)  return nullptr ; 
 
     //取得ip 和 port
     std::string ip = host_data.substr(0, host_index);
@@ -169,7 +168,7 @@ int ZkClient::GetFollowerFd()
     if (client_fd == -1)
     {
         close(client_fd);
-        return -1;
+        return nullptr;
     }
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
@@ -179,7 +178,8 @@ int ZkClient::GetFollowerFd()
     if (connect(client_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1)
     {
         close(client_fd);
-        return -1;
+        return nullptr;
     }
-    return client_fd;
+    std::shared_ptr<Socket> socketFd(new Socket(client_fd)) ; 
+    return socketFd;
 }

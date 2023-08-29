@@ -5,6 +5,7 @@
 #include <zookeeper/zookeeper.h>
 #include <string>
 #include <mutex>
+#include <memory>
 #include <unordered_map>
 #include <string.h>
 #include <unistd.h>
@@ -12,6 +13,7 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include "../base/Socket.h" 
 
 // 封装的 zk 客户端类
 class ZkClient
@@ -34,7 +36,7 @@ public:
     // // 更新从服务器对应的 IP 列表
     // void FlushFollower();
     // 等到一个可用的从服务器节点，并建立连接，返回文件描述符
-    int GetFollowerFd() ;
+    std::shared_ptr<Socket> GetFollowerFd() ;
 
 private : 
     // zk 的客户端句柄

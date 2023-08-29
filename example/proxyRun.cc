@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 {
     if (argc < 3)
     {
-        cerr << "command invalid! example: ./ProxyServer 127.0.0.1 8003" << endl;
+        cerr << "command invalid! example: ./ProxyServer 127.0.0.1 8001" << endl;
         exit(-1);
     }
     // 解析通过命令行参数传递的ip和port

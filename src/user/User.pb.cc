@@ -96,6 +96,19 @@ struct LogOutResponseDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT LogOutResponseDefaultTypeInternal _LogOutResponse_default_instance_;
+constexpr GetUserInfoResponse::GetUserInfoResponse(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : usernames_()
+  , is_success_(false){}
+struct GetUserInfoResponseDefaultTypeInternal {
+  constexpr GetUserInfoResponseDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~GetUserInfoResponseDefaultTypeInternal() {}
+  union {
+    GetUserInfoResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GetUserInfoResponseDefaultTypeInternal _GetUserInfoResponse_default_instance_;
 constexpr UserRequest::UserRequest(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : type_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
@@ -123,7 +136,7 @@ struct UserResponseDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT UserResponseDefaultTypeInternal _UserResponse_default_instance_;
 }  // namespace User
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_User_2eproto[8];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_User_2eproto[9];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_User_2eproto = nullptr;
 static const ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor* file_level_service_descriptors_User_2eproto[1];
 
@@ -178,6 +191,14 @@ const uint32_t TableStruct_User_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::User::LogOutResponse, is_success_),
   PROTOBUF_FIELD_OFFSET(::User::LogOutResponse, message_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::User::GetUserInfoResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::User::GetUserInfoResponse, is_success_),
+  PROTOBUF_FIELD_OFFSET(::User::GetUserInfoResponse, usernames_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::User::UserRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -201,8 +222,9 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 25, -1, -1, sizeof(::User::RegisterResponse)},
   { 33, -1, -1, sizeof(::User::LogOutRequest)},
   { 41, -1, -1, sizeof(::User::LogOutResponse)},
-  { 49, -1, -1, sizeof(::User::UserRequest)},
-  { 57, -1, -1, sizeof(::User::UserResponse)},
+  { 49, -1, -1, sizeof(::User::GetUserInfoResponse)},
+  { 57, -1, -1, sizeof(::User::UserRequest)},
+  { 65, -1, -1, sizeof(::User::UserResponse)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -212,6 +234,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::User::_RegisterResponse_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::User::_LogOutRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::User::_LogOutResponse_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::User::_GetUserInfoResponse_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::User::_UserRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::User::_UserResponse_default_instance_),
 };
@@ -225,19 +248,22 @@ const char descriptor_table_protodef_User_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "esponse\022\022\n\nis_success\030\001 \001(\010\022\017\n\007message\030\002"
   " \001(\t\".\n\rLogOutRequest\022\014\n\004name\030\001 \001(\t\022\017\n\007i"
   "p_port\030\002 \001(\t\"5\n\016LogOutResponse\022\022\n\nis_suc"
-  "cess\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\",\n\013UserReque"
-  "st\022\014\n\004type\030\001 \001(\t\022\017\n\007message\030\002 \001(\t\"-\n\014Use"
-  "rResponse\022\014\n\004type\030\001 \001(\t\022\017\n\007message\030\002 \001(\t"
-  "2\261\001\n\016UserServiceRpc\022/\n\005Login\022\022.User.Logi"
-  "nRequest\032\022.User.LoginReponse\0229\n\010Register"
-  "\022\025.User.RegisterRequest\032\026.User.RegisterR"
-  "esponse\0223\n\006LogOut\022\023.User.LogOutRequest\032\024"
-  ".User.LogOutResponseB\003\200\001\001b\006proto3"
+  "cess\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\"<\n\023GetUserIn"
+  "foResponse\022\022\n\nis_success\030\001 \001(\010\022\021\n\tuserNa"
+  "mes\030\002 \003(\t\",\n\013UserRequest\022\014\n\004type\030\001 \001(\t\022\017"
+  "\n\007message\030\002 \001(\t\"-\n\014UserResponse\022\014\n\004type\030"
+  "\001 \001(\t\022\017\n\007message\030\002 \001(\t2\356\001\n\016UserServiceRp"
+  "c\022/\n\005Login\022\022.User.LoginRequest\032\022.User.Lo"
+  "ginReponse\0229\n\010Register\022\025.User.RegisterRe"
+  "quest\032\026.User.RegisterResponse\0223\n\006LogOut\022"
+  "\023.User.LogOutRequest\032\024.User.LogOutRespon"
+  "se\022;\n\013GetUserInfo\022\021.User.UserRequest\032\031.U"
+  "ser.GetUserInfoResponseB\003\200\001\001b\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_User_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_User_2eproto = {
-  false, false, 633, descriptor_table_protodef_User_2eproto, "User.proto", 
-  &descriptor_table_User_2eproto_once, nullptr, 0, 8,
+  false, false, 756, descriptor_table_protodef_User_2eproto, "User.proto", 
+  &descriptor_table_User_2eproto_once, nullptr, 0, 9,
   schemas, file_default_instances, TableStruct_User_2eproto::offsets,
   file_level_metadata_User_2eproto, file_level_enum_descriptors_User_2eproto, file_level_service_descriptors_User_2eproto,
 };
@@ -1743,6 +1769,222 @@ void LogOutResponse::InternalSwap(LogOutResponse* other) {
 
 // ===================================================================
 
+class GetUserInfoResponse::_Internal {
+ public:
+};
+
+GetUserInfoResponse::GetUserInfoResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
+  usernames_(arena) {
+  SharedCtor();
+  if (!is_message_owned) {
+    RegisterArenaDtor(arena);
+  }
+  // @@protoc_insertion_point(arena_constructor:User.GetUserInfoResponse)
+}
+GetUserInfoResponse::GetUserInfoResponse(const GetUserInfoResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      usernames_(from.usernames_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  is_success_ = from.is_success_;
+  // @@protoc_insertion_point(copy_constructor:User.GetUserInfoResponse)
+}
+
+inline void GetUserInfoResponse::SharedCtor() {
+is_success_ = false;
+}
+
+GetUserInfoResponse::~GetUserInfoResponse() {
+  // @@protoc_insertion_point(destructor:User.GetUserInfoResponse)
+  if (GetArenaForAllocation() != nullptr) return;
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+inline void GetUserInfoResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void GetUserInfoResponse::ArenaDtor(void* object) {
+  GetUserInfoResponse* _this = reinterpret_cast< GetUserInfoResponse* >(object);
+  (void)_this;
+}
+void GetUserInfoResponse::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void GetUserInfoResponse::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void GetUserInfoResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:User.GetUserInfoResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  usernames_.Clear();
+  is_success_ = false;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GetUserInfoResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool is_success = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          is_success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string userNames = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_usernames();
+            ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "User.GetUserInfoResponse.userNames"));
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* GetUserInfoResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:User.GetUserInfoResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool is_success = 1;
+  if (this->_internal_is_success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(1, this->_internal_is_success(), target);
+  }
+
+  // repeated string userNames = 2;
+  for (int i = 0, n = this->_internal_usernames_size(); i < n; i++) {
+    const auto& s = this->_internal_usernames(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "User.GetUserInfoResponse.userNames");
+    target = stream->WriteString(2, s, target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:User.GetUserInfoResponse)
+  return target;
+}
+
+size_t GetUserInfoResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:User.GetUserInfoResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated string userNames = 2;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(usernames_.size());
+  for (int i = 0, n = usernames_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      usernames_.Get(i));
+  }
+
+  // bool is_success = 1;
+  if (this->_internal_is_success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData GetUserInfoResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
+    GetUserInfoResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetUserInfoResponse::GetClassData() const { return &_class_data_; }
+
+void GetUserInfoResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
+                      const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+  static_cast<GetUserInfoResponse *>(to)->MergeFrom(
+      static_cast<const GetUserInfoResponse &>(from));
+}
+
+
+void GetUserInfoResponse::MergeFrom(const GetUserInfoResponse& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:User.GetUserInfoResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  usernames_.MergeFrom(from.usernames_);
+  if (from._internal_is_success() != 0) {
+    _internal_set_is_success(from._internal_is_success());
+  }
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void GetUserInfoResponse::CopyFrom(const GetUserInfoResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:User.GetUserInfoResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GetUserInfoResponse::IsInitialized() const {
+  return true;
+}
+
+void GetUserInfoResponse::InternalSwap(GetUserInfoResponse* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  usernames_.InternalSwap(&other->usernames_);
+  swap(is_success_, other->is_success_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GetUserInfoResponse::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_User_2eproto_getter, &descriptor_table_User_2eproto_once,
+      file_level_metadata_User_2eproto[6]);
+}
+
+// ===================================================================
+
 class UserRequest::_Internal {
  public:
 };
@@ -1990,7 +2232,7 @@ void UserRequest::InternalSwap(UserRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UserRequest::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_User_2eproto_getter, &descriptor_table_User_2eproto_once,
-      file_level_metadata_User_2eproto[6]);
+      file_level_metadata_User_2eproto[7]);
 }
 
 // ===================================================================
@@ -2242,7 +2484,7 @@ void UserResponse::InternalSwap(UserResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UserResponse::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_User_2eproto_getter, &descriptor_table_User_2eproto_once,
-      file_level_metadata_User_2eproto[7]);
+      file_level_metadata_User_2eproto[8]);
 }
 
 // ===================================================================
@@ -2282,6 +2524,14 @@ void UserServiceRpc::LogOut(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
   done->Run();
 }
 
+void UserServiceRpc::GetUserInfo(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::User::UserRequest*,
+                         ::User::GetUserInfoResponse*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method GetUserInfo() not implemented.");
+  done->Run();
+}
+
 void UserServiceRpc::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* method,
                              ::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                              const ::PROTOBUF_NAMESPACE_ID::Message* request,
@@ -2313,6 +2563,14 @@ void UserServiceRpc::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor*
                  response),
              done);
       break;
+    case 3:
+      GetUserInfo(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::User::UserRequest*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::User::GetUserInfoResponse*>(
+                 response),
+             done);
+      break;
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
       break;
@@ -2329,6 +2587,8 @@ const ::PROTOBUF_NAMESPACE_ID::Message& UserServiceRpc::GetRequestPrototype(
       return ::User::RegisterRequest::default_instance();
     case 2:
       return ::User::LogOutRequest::default_instance();
+    case 3:
+      return ::User::UserRequest::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
       return *::PROTOBUF_NAMESPACE_ID::MessageFactory::generated_factory()
@@ -2346,6 +2606,8 @@ const ::PROTOBUF_NAMESPACE_ID::Message& UserServiceRpc::GetResponsePrototype(
       return ::User::RegisterResponse::default_instance();
     case 2:
       return ::User::LogOutResponse::default_instance();
+    case 3:
+      return ::User::GetUserInfoResponse::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
       return *::PROTOBUF_NAMESPACE_ID::MessageFactory::generated_factory()
@@ -2385,6 +2647,13 @@ void UserServiceRpc_Stub::LogOut(::PROTOBUF_NAMESPACE_ID::RpcController* control
   channel_->CallMethod(descriptor()->method(2),
                        controller, request, response, done);
 }
+void UserServiceRpc_Stub::GetUserInfo(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::User::UserRequest* request,
+                              ::User::GetUserInfoResponse* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(3),
+                       controller, request, response, done);
+}
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace User
@@ -2406,6 +2675,9 @@ template<> PROTOBUF_NOINLINE ::User::LogOutRequest* Arena::CreateMaybeMessage< :
 }
 template<> PROTOBUF_NOINLINE ::User::LogOutResponse* Arena::CreateMaybeMessage< ::User::LogOutResponse >(Arena* arena) {
   return Arena::CreateMessageInternal< ::User::LogOutResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::User::GetUserInfoResponse* Arena::CreateMaybeMessage< ::User::GetUserInfoResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::User::GetUserInfoResponse >(arena);
 }
 template<> PROTOBUF_NOINLINE ::User::UserRequest* Arena::CreateMaybeMessage< ::User::UserRequest >(Arena* arena) {
   return Arena::CreateMessageInternal< ::User::UserRequest >(arena);

@@ -39,7 +39,7 @@ void ProxyServer::on_message(const muduo::net::TcpConnectionPtr &conn, muduo::ne
     request.ParseFromString(recv_str);
 
     //获取对应的处理器并执行
-    auto msg_handler = proxyService_->get_handler(request.type());
+    auto msg_handler = proxyService_->getHandler(request.type());
     std::string strMsg = request.request_msg();
     msg_handler(conn, strMsg, stamp);
 }
@@ -50,7 +50,8 @@ void ProxyServer::on_connetion(const muduo::net::TcpConnectionPtr &conn)
     if (!conn->connected())
     {
         //当客户端异常退出，执行此命令
-        proxyService_->client_close_exception(conn);
+        // std::cout << "client quit abnormal quit" << std::endl ;
+        proxyService_->clientCloseException(conn);
         conn->shutdown();
     }
 }

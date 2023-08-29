@@ -3,6 +3,7 @@
 
 #include "../proxy/Proxy.pb.h"
 #include "../user/User.pb.h"
+#include "../chat/ChatMessage.pb.h"
 #include "../base/ZookeeperUtil.h"
 #include "../base/Redis.h"
 
@@ -33,9 +34,21 @@ public :
 
     //注销业务
     void logout(const muduo::net::TcpConnectionPtr &conn, std::string &recv_buf, muduo::Timestamp time);
+    
+    // 获得用户信息
+    void getUserInfo(const muduo::net::TcpConnectionPtr &conn, std::string &recv_buf, muduo::Timestamp time);
+
+    // 客户端发送过来的聊天信息处理
+    void chatMessage(const muduo::net::TcpConnectionPtr &conn, std::string &recv_buf, muduo::Timestamp time);
+    
+    // ChatFollower 发送过来的聊天信息处理
+    void forwardMessage(const muduo::net::TcpConnectionPtr &conn, std::string &recv_buf, muduo::Timestamp time);
+
+    // 刚登录需要读取该用户的离线消息
+    void readOfflineMessage(const muduo::net::TcpConnectionPtr &conn, std::string &recv_buf, muduo::Timestamp time);
 
     //处理客户端异常退出
-    void client_close_exception(const muduo::net::TcpConnectionPtr &conn);
+    void clientCloseException(const muduo::net::TcpConnectionPtr &conn);
 
     // 服务器异常，清理客户端资源
     void reset() ; 
@@ -43,7 +56,7 @@ public :
     using MsgHandler = std::function<void(const muduo::net::TcpConnectionPtr &conn, std::string &recv_str, muduo::Timestamp time)>;
 
     //获得消息对应的处理器
-    MsgHandler get_handler(std::string msg_type);
+    MsgHandler getHandler(std::string msg_type);
 
 private:
 

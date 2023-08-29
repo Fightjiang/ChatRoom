@@ -47,7 +47,7 @@ struct TableStruct_User_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[8]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[9]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -55,6 +55,9 @@ struct TableStruct_User_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_User_2eproto;
 namespace User {
+class GetUserInfoResponse;
+struct GetUserInfoResponseDefaultTypeInternal;
+extern GetUserInfoResponseDefaultTypeInternal _GetUserInfoResponse_default_instance_;
 class LogOutRequest;
 struct LogOutRequestDefaultTypeInternal;
 extern LogOutRequestDefaultTypeInternal _LogOutRequest_default_instance_;
@@ -81,6 +84,7 @@ struct UserResponseDefaultTypeInternal;
 extern UserResponseDefaultTypeInternal _UserResponse_default_instance_;
 }  // namespace User
 PROTOBUF_NAMESPACE_OPEN
+template<> ::User::GetUserInfoResponse* Arena::CreateMaybeMessage<::User::GetUserInfoResponse>(Arena*);
 template<> ::User::LogOutRequest* Arena::CreateMaybeMessage<::User::LogOutRequest>(Arena*);
 template<> ::User::LogOutResponse* Arena::CreateMaybeMessage<::User::LogOutResponse>(Arena*);
 template<> ::User::LoginReponse* Arena::CreateMaybeMessage<::User::LoginReponse>(Arena*);
@@ -1097,6 +1101,178 @@ class LogOutResponse final :
 };
 // -------------------------------------------------------------------
 
+class GetUserInfoResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:User.GetUserInfoResponse) */ {
+ public:
+  inline GetUserInfoResponse() : GetUserInfoResponse(nullptr) {}
+  ~GetUserInfoResponse() override;
+  explicit constexpr GetUserInfoResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  GetUserInfoResponse(const GetUserInfoResponse& from);
+  GetUserInfoResponse(GetUserInfoResponse&& from) noexcept
+    : GetUserInfoResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline GetUserInfoResponse& operator=(const GetUserInfoResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GetUserInfoResponse& operator=(GetUserInfoResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GetUserInfoResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GetUserInfoResponse* internal_default_instance() {
+    return reinterpret_cast<const GetUserInfoResponse*>(
+               &_GetUserInfoResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  friend void swap(GetUserInfoResponse& a, GetUserInfoResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GetUserInfoResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GetUserInfoResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  GetUserInfoResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<GetUserInfoResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const GetUserInfoResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom(const GetUserInfoResponse& from);
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GetUserInfoResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "User.GetUserInfoResponse";
+  }
+  protected:
+  explicit GetUserInfoResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUserNamesFieldNumber = 2,
+    kIsSuccessFieldNumber = 1,
+  };
+  // repeated string userNames = 2;
+  int usernames_size() const;
+  private:
+  int _internal_usernames_size() const;
+  public:
+  void clear_usernames();
+  const std::string& usernames(int index) const;
+  std::string* mutable_usernames(int index);
+  void set_usernames(int index, const std::string& value);
+  void set_usernames(int index, std::string&& value);
+  void set_usernames(int index, const char* value);
+  void set_usernames(int index, const char* value, size_t size);
+  std::string* add_usernames();
+  void add_usernames(const std::string& value);
+  void add_usernames(std::string&& value);
+  void add_usernames(const char* value);
+  void add_usernames(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& usernames() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_usernames();
+  private:
+  const std::string& _internal_usernames(int index) const;
+  std::string* _internal_add_usernames();
+  public:
+
+  // bool is_success = 1;
+  void clear_is_success();
+  bool is_success() const;
+  void set_is_success(bool value);
+  private:
+  bool _internal_is_success() const;
+  void _internal_set_is_success(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:User.GetUserInfoResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> usernames_;
+  bool is_success_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_User_2eproto;
+};
+// -------------------------------------------------------------------
+
 class UserRequest final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:User.UserRequest) */ {
  public:
@@ -1145,7 +1321,7 @@ class UserRequest final :
                &_UserRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   friend void swap(UserRequest& a, UserRequest& b) {
     a.Swap(&b);
@@ -1312,7 +1488,7 @@ class UserResponse final :
                &_UserResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   friend void swap(UserResponse& a, UserResponse& b) {
     a.Swap(&b);
@@ -1456,6 +1632,10 @@ class UserServiceRpc : public ::PROTOBUF_NAMESPACE_ID::Service {
                        const ::User::LogOutRequest* request,
                        ::User::LogOutResponse* response,
                        ::google::protobuf::Closure* done);
+  virtual void GetUserInfo(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::User::UserRequest* request,
+                       ::User::GetUserInfoResponse* response,
+                       ::google::protobuf::Closure* done);
 
   // implements Service ----------------------------------------------
 
@@ -1496,6 +1676,10 @@ class UserServiceRpc_Stub : public UserServiceRpc {
   void LogOut(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::User::LogOutRequest* request,
                        ::User::LogOutResponse* response,
+                       ::google::protobuf::Closure* done);
+  void GetUserInfo(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::User::UserRequest* request,
+                       ::User::GetUserInfoResponse* response,
                        ::google::protobuf::Closure* done);
  private:
   ::PROTOBUF_NAMESPACE_ID::RpcChannel* channel_;
@@ -2107,6 +2291,105 @@ inline void LogOutResponse::set_allocated_message(std::string* message) {
 
 // -------------------------------------------------------------------
 
+// GetUserInfoResponse
+
+// bool is_success = 1;
+inline void GetUserInfoResponse::clear_is_success() {
+  is_success_ = false;
+}
+inline bool GetUserInfoResponse::_internal_is_success() const {
+  return is_success_;
+}
+inline bool GetUserInfoResponse::is_success() const {
+  // @@protoc_insertion_point(field_get:User.GetUserInfoResponse.is_success)
+  return _internal_is_success();
+}
+inline void GetUserInfoResponse::_internal_set_is_success(bool value) {
+  
+  is_success_ = value;
+}
+inline void GetUserInfoResponse::set_is_success(bool value) {
+  _internal_set_is_success(value);
+  // @@protoc_insertion_point(field_set:User.GetUserInfoResponse.is_success)
+}
+
+// repeated string userNames = 2;
+inline int GetUserInfoResponse::_internal_usernames_size() const {
+  return usernames_.size();
+}
+inline int GetUserInfoResponse::usernames_size() const {
+  return _internal_usernames_size();
+}
+inline void GetUserInfoResponse::clear_usernames() {
+  usernames_.Clear();
+}
+inline std::string* GetUserInfoResponse::add_usernames() {
+  std::string* _s = _internal_add_usernames();
+  // @@protoc_insertion_point(field_add_mutable:User.GetUserInfoResponse.userNames)
+  return _s;
+}
+inline const std::string& GetUserInfoResponse::_internal_usernames(int index) const {
+  return usernames_.Get(index);
+}
+inline const std::string& GetUserInfoResponse::usernames(int index) const {
+  // @@protoc_insertion_point(field_get:User.GetUserInfoResponse.userNames)
+  return _internal_usernames(index);
+}
+inline std::string* GetUserInfoResponse::mutable_usernames(int index) {
+  // @@protoc_insertion_point(field_mutable:User.GetUserInfoResponse.userNames)
+  return usernames_.Mutable(index);
+}
+inline void GetUserInfoResponse::set_usernames(int index, const std::string& value) {
+  usernames_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:User.GetUserInfoResponse.userNames)
+}
+inline void GetUserInfoResponse::set_usernames(int index, std::string&& value) {
+  usernames_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:User.GetUserInfoResponse.userNames)
+}
+inline void GetUserInfoResponse::set_usernames(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  usernames_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:User.GetUserInfoResponse.userNames)
+}
+inline void GetUserInfoResponse::set_usernames(int index, const char* value, size_t size) {
+  usernames_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:User.GetUserInfoResponse.userNames)
+}
+inline std::string* GetUserInfoResponse::_internal_add_usernames() {
+  return usernames_.Add();
+}
+inline void GetUserInfoResponse::add_usernames(const std::string& value) {
+  usernames_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:User.GetUserInfoResponse.userNames)
+}
+inline void GetUserInfoResponse::add_usernames(std::string&& value) {
+  usernames_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:User.GetUserInfoResponse.userNames)
+}
+inline void GetUserInfoResponse::add_usernames(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  usernames_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:User.GetUserInfoResponse.userNames)
+}
+inline void GetUserInfoResponse::add_usernames(const char* value, size_t size) {
+  usernames_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:User.GetUserInfoResponse.userNames)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+GetUserInfoResponse::usernames() const {
+  // @@protoc_insertion_point(field_list:User.GetUserInfoResponse.userNames)
+  return usernames_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+GetUserInfoResponse::mutable_usernames() {
+  // @@protoc_insertion_point(field_mutable_list:User.GetUserInfoResponse.userNames)
+  return &usernames_;
+}
+
+// -------------------------------------------------------------------
+
 // UserRequest
 
 // string type = 1;
@@ -2320,6 +2603,8 @@ inline void UserResponse::set_allocated_message(std::string* message) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

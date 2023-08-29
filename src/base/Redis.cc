@@ -24,13 +24,13 @@ RedisCli::~RedisCli()
 bool RedisCli::connect()
 {
     get_channel_ = redisConnect(ip_, port_);
-    if (get_channel_ == nullptr)
+    if (get_channel_ == nullptr || get_channel_->err)
     {
         return false;
     }
 
     set_channel_ = redisConnect(ip_, port_);
-    if (set_channel_ == nullptr)
+    if (set_channel_ == nullptr || set_channel_->err)
     {
         return false;
     }
