@@ -38,16 +38,80 @@ ChatRoom 项目的大致架构图，从数据流的角度可以这样分析：
 
 ChatFollower 节点信息供 Proxy 主节点管理，主要考虑到客户端是与 Proxy 建立连接的，最终的消息转发到客户端都要通过 Proxy，故 ChatFollower 可以直接与 Proxy 建立连接转发消息。ChatFollower 会先去 Redis 服务器上查询这个用户是否在线；如果在线，取得与它建立连接的 Proxy 服务器信息(IP:Port)，并发送请求给 Proxy 要求转发消息给客户端。如果不在线则将消息转存到 Mysql 的 offlinemessage 表中，供该用户上线时读取。
 
-
-
 [消息转发集群](./src/chat/README.md)
 
 
-## Zookeeper 
+## Proxy 节点转发请求方法主要函数
+ProxyServer 在接收到消息之后，需要反序列化获得 request Method 找到对应的处理函数
+```
+//读写事件回调函数
+void ProxyServer::on_message(const muduo::net::TcpConnectionPtr &conn, muduo::net::Buffer *buffer, muduo::Timestamp stamp)
+{
+    //反序列化
+    std::string recv_str = buffer->retrieveAllAsString();
+    Proxy::ProxyRequest request;
+    request.ParseFromString(recv_str);
 
-Zookeeper 主要具有的功能有：1. 数据发布/订阅; 2. 集群管理(选举); 3. 分布式管理(分布式锁、数据同步及一致性)。 Leader 选举规则： 1. Epoch 大的直接胜出； 2. Epoch 相同，事务 id 大的胜出； 3. 事务 id 相同，服务器 id 大的胜出
+    //获取对应的处理器并执行
+    auto msg_handler = proxyService_->getHandler(request.type());
+    std::string strMsg = request.request_msg();
+    msg_handler(conn, strMsg, stamp);
+}
+
+//获得请求对应的转发处理函数
+ProxyService::MsgHandler ProxyService::getHandler(std::string msg_type)
+{
+    //记录错误日志，msgid没有对应的事件处理回调
+    auto it = msg_handler_map_.find(msg_type);
+    //如果没有对应的msgid
+    if (it == msg_handler_map_.end())
+    {
+        return [=](const muduo::net::TcpConnectionPtr &conn, std::string &recv_buf, muduo::Timestamp time) {};
+    }
+    else
+    {
+        return msg_handler_map_[msg_type];
+    }
+}
+
+// msg_handler_map 保存的方法
+msg_handler_map_.insert({"Login", std::bind(&ProxyService::login, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
+msg_handler_map_.insert({"Register", std::bind(&ProxyService::regist, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
+msg_handler_map_.insert({"Logout", std::bind(&ProxyService::logout, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
+msg_handler_map_.insert({"getUserInfo", std::bind(&ProxyService::getUserInfo, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
+msg_handler_map_.insert({"chatMessage", std::bind(&ProxyService::chatMessage, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
+msg_handler_map_.insert({"forwardMessage", std::bind(&ProxyService::forwardMessage, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
+```
+
+## 项目环境
+* Ubuntu18.04、VScode、g++、C++11、Cmake
+* 需要安装的库：Nginx 、muduo 、Redis 、Mysql 、Zookeeper 、Protobuf
+
+## 项目运行示例
+![projectPre](./image/projectPre.jpg)
+
+## 项目缺陷 & 待完善
+
+1. 系统的容灾考虑不够，UserMaster 挂了则影响整个服务。比如按照目前的架构，UserMaster 会存在很大的网络压力，因为所有的 ProxyServer 转发的用户请求方法都是集中到 UserMaster 统一处理，然后转发到 UserFollower 上处理，这样是不合理的。后续应该改成像 ChatFollower 与 ProxyServer 建立的连接一样，把自己的节点信息注册到 Zookeeper 上的临时节点上，再采用轮询选择的方法与 UserMaster 建立连接转发请求。
+
+2. 目前 UserMaster 选则 UserFollower 采用的方法是简单的轮询方法。但是这个方法存在缺陷，如一个新上线的节点，本来应该承担更多的请求，但是这个时候还是轮询，就没有发挥出新节点应该有的能力，故后续可以改成在 Node 里面计每个 Follower 接收的次数，有侧重的转发请求。
+
+3. 业务上需要有加上分布式锁，但是目前的实现比较简单，是采用轮询的方式去判断是否加锁成功，可以改成消息订阅通知的形式。包括当 Zookeeper 上的结点信息发生变化的时候，目前也只是在主服务主动判断所有结点信息是否发生了变化，也可以添加通知订阅结点的方式。 
+
+4. 业务功能扩展，如：添加创建群聊功能等。
+
+## 项目模块讲解
+
+* [Nginx 简单配置](./nginxConfig.md)
+* [数据库连接池]()
+* [Muduo 网络库介绍]()
+* [Protobuf 基础讲解]()
+* [Zookeeper 基础讲解]()
+* [RPC 框架建立]()
 
 
-主服务器 Master 负责从 Zookeeper 对应的路径下查找到从节点 Follower 的 IP:Port 然后进行数据转发。从服务器一旦启动就会往 Zookeeper 中的对应路径下写入自己的 IP:Port 注册临时节点，这样一旦服务器断开连接，临时节点上的数据就会被删除。
 
-Zookeeper 在这里其实主要就是起到一个配置中心的目的，Zookeeper 上面我们标识了每个类的方法所对应的分布式节点地址，当我们其他服务器想要发起 RPC 调用的时候，就先去 Zookeeper 上查询对应要调用的服务在那个节点上。
+## 参考代码库
+1. [Cluster-Chat-Server](https://github.com/Shangyizhou/Cluster-Chat-Server/tree/main)
+2. [Chat-Server](https://github.com/shenmingik/Server)
+3. [ByteTalk](https://github.com/shenmingik/ByteTalk)

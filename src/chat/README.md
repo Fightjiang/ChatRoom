@@ -10,7 +10,7 @@
     * 用户下线，则直接把发送的消息存入用户的离线消息表中。
     * 用户在线，则从 Redis 中拿到用户对应的建立连接的 ProxyService 服务器所在的 IP:Port ，并建立连接并将消息转发给该 Proxy 服务器，然后该 Proxy 服务器会转发给客户端
 
-### Proxy 处理客户发送消息的请求
+### Proxy 处理客户发送消息的请求 , 判断是否直接相连
 ```C++
 // 收到客户端发送给其他用户的聊天消息
 void ProxyService::chatMessage(const muduo::net::TcpConnectionPtr &conn, std::string &recv_buf, muduo::Timestamp time)
@@ -79,5 +79,46 @@ void ProxyService::chatMessage(const muduo::net::TcpConnectionPtr &conn, std::st
     //序列化并发送
     std::string send_str = ProxyResponse.SerializeAsString();
     conn->send(send_str);  
+}
+```
+### Proxy 从 ChatServer 接收到要求转发给客户端
+```C++
+// 收到 ChatFollower 发送过来的转发消息给客户端的请求
+void ProxyService::forwardMessage(const muduo::net::TcpConnectionPtr &conn, std::string &recv_buf, muduo::Timestamp time)
+{
+    //反序列化
+    ChatMessage::Message request;
+    request.ParseFromString(recv_buf);
+    
+    // 转发消息给用户 response.set_type 用于给用户区分类型
+    Proxy::ProxyResponse response;
+    response.set_type("RecvChatMessage");
+    response.set_response_msg(recv_buf);
+
+    std::string recvName  = request.recvname();
+    muduo::net::TcpConnectionPtr client_conn = nullptr ;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = use_connection_map_.find(recvName);
+        client_conn = it->second;
+    }
+
+    if (client_conn != nullptr) {
+        client_conn->send(response.SerializeAsString());
+    } else { // 处理转发的时候用户下线这种异常的情况， send 失败则让 chatFollower 继续写入离线消息表中 
+        std::cout << "user already LogOut" << std::endl ; 
+        // 获取一个与转发服务器交互的可以连接
+        std::shared_ptr<Socket> chat_fd;
+        while ((chat_fd = master_.GetFollowerFd()) == nullptr)
+        {
+            sleep(1);
+        }
+        
+        ChatMessage::ChatRequest chatRequest ;
+        chatRequest.set_type("WriteOffline") ;
+        chatRequest.set_message(recv_buf) ;
+        std::string sendStr = chatRequest.SerializeAsString() ; 
+        send(chat_fd->fd(), sendStr.data(), sendStr.size(), 0);
+    } 
 }
 ```
